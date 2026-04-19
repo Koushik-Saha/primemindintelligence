@@ -18,15 +18,36 @@ export const cardRevealVariants: Variants = {
   }),
 };
 
-const overlayVariants: Variants = {
-  rest:  { opacity: 0 },
-  hover: { opacity: 1, transition: { duration: 0.22, ease: "easeOut" } },
-};
-
 const arrowVariants: Variants = {
   rest:  { x: 0, opacity: 0.7 },
   hover: { x: 5, opacity: 1,  transition: { duration: 0.2, ease: "easeOut" } },
 };
+
+// ─── External link icon ───────────────────────────────────────────────────────
+
+function ExternalLinkIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10"
+        stroke="currentColor"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+// ─── GitHub icon ──────────────────────────────────────────────────────────────
+
+function GitHubIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+    </svg>
+  );
+}
 
 // ─── CaseStudyCard ────────────────────────────────────────────────────────────
 
@@ -49,7 +70,7 @@ export function CaseStudyCard({ study, index, animate = true }: Props) {
       initial={animate ? "hidden" : undefined}
       animate={animate && inView ? "visible" : animate ? "hidden" : undefined}
       whileHover="hover"
-      className="group relative rounded-2xl overflow-hidden cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden"
       style={{ willChange: "transform" }}
     >
       {/* ── Card background ─────────────────────────────────────────────── */}
@@ -85,20 +106,16 @@ export function CaseStudyCard({ study, index, animate = true }: Props) {
           hover: { opacity: 1, transition: { duration: 0.3 } },
         }}
         className="absolute inset-0 rounded-2xl pointer-events-none"
-        style={{
-          boxShadow: `0 0 50px ${accent.glow}`,
-        }}
+        style={{ boxShadow: `0 0 50px ${accent.glow}` }}
         aria-hidden="true"
       />
 
       {/* ── Content ─────────────────────────────────────────────────────── */}
-      <div className="relative z-10 p-7 flex flex-col h-full min-h-[400px]">
+      <div className="relative z-10 p-7 flex flex-col h-full min-h-[460px]">
 
         {/* Top row: icon + category pill */}
-        <div className="flex items-start justify-between mb-6">
-          <div
-            className={`w-11 h-11 rounded-xl flex items-center justify-center ${accent.iconBg} border border-white/[0.1]`}
-          >
+        <div className="flex items-start justify-between mb-5">
+          <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${accent.iconBg} border border-white/[0.1]`}>
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -129,33 +146,33 @@ export function CaseStudyCard({ study, index, animate = true }: Props) {
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-white/50 leading-relaxed mb-6 flex-grow">
+        <p className="text-sm text-white/50 leading-relaxed mb-5 flex-grow">
           {study.description}
         </p>
 
-        {/* Metrics strip */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          {study.metrics.map((m) => (
-            <div
-              key={m.label}
-              className="bg-white/[0.04] border border-white/[0.06] rounded-xl px-3 py-2.5"
+        {/* Tech stack badges */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {study.techStack.slice(0, 5).map((t) => (
+            <span
+              key={t}
+              className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white/[0.06] text-white/45 border border-white/[0.08]"
             >
-              <div className={`text-lg font-black ${accent.metric} leading-none mb-0.5`}>
-                {m.value}
-              </div>
-              <div className="text-[10px] text-white/35 leading-tight font-medium">
-                {m.label}
-              </div>
-            </div>
+              {t}
+            </span>
           ))}
+          {study.techStack.length > 5 && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white/[0.04] text-white/30 border border-white/[0.06]">
+              +{study.techStack.length - 5} more
+            </span>
+          )}
         </div>
 
         {/* Services tags */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
+        <div className="flex flex-wrap gap-1.5 mb-5">
           {study.services.map((s) => (
             <span
               key={s}
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white/[0.05] text-white/40 border border-white/[0.07]"
+              className="text-[10px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.04] text-white/35 border border-white/[0.06]"
             >
               {s}
             </span>
@@ -163,78 +180,38 @@ export function CaseStudyCard({ study, index, animate = true }: Props) {
         </div>
 
         {/* CTA row */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pt-1 border-t border-white/[0.06]">
           <span className="text-[11px] text-white/25">
             {study.duration} · {study.year}
           </span>
 
-          <motion.div
-            className={`inline-flex items-center gap-1.5 text-[12px] font-semibold ${accent.iconColor}`}
-            variants={arrowVariants}
-          >
-            View Case Study
-            {/* Arrow icon */}
-            <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
-              <path
-                d="M3 8h10M9 4l4 4-4 4"
-                stroke="currentColor"
-                strokeWidth={1.75}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </motion.div>
+          <div className="flex items-center gap-3">
+            {/* GitHub */}
+            <a
+              href={study.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`GitHub repo for ${study.client}`}
+              onClick={(e) => e.stopPropagation()}
+              className={`${accent.iconColor} opacity-60 hover:opacity-100 transition-opacity duration-150`}
+            >
+              <GitHubIcon className="w-4 h-4" />
+            </a>
+
+            {/* Live demo */}
+            <a
+              href={study.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className={`inline-flex items-center gap-1 text-[11px] font-semibold ${accent.iconColor} opacity-75 hover:opacity-100 transition-opacity duration-150`}
+            >
+              <motion.span variants={arrowVariants}>Live Demo</motion.span>
+              <ExternalLinkIcon className="w-3 h-3" />
+            </a>
+          </div>
         </div>
       </div>
-
-      {/* ── Hover overlay ─────────────────────────────────────────────────── */}
-      <motion.div
-        variants={overlayVariants}
-        className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-2xl"
-        style={{
-          background: `linear-gradient(145deg, ${study.gradientFrom}EE 0%, ${study.gradientTo}F0 100%)`,
-          backdropFilter: "blur(2px)",
-        }}
-        aria-hidden="true"
-      >
-        {/* Client name big */}
-        <div className="text-center px-8 pointer-events-none select-none">
-          <p className={`text-[11px] font-bold tracking-[0.2em] uppercase ${accent.iconColor} mb-2`}>
-            {study.client}
-          </p>
-          <h4 className="text-2xl font-black text-white mb-3 leading-tight tracking-tight">
-            {study.title}
-          </h4>
-          <p className="text-sm text-white/60 leading-relaxed max-w-xs mx-auto">
-            {study.description}
-          </p>
-        </div>
-
-        {/* CTA button */}
-        <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          className={`
-            mt-8 pointer-events-auto inline-flex items-center gap-2
-            px-6 py-2.5 rounded-xl border
-            ${accent.pill}
-            text-[13px] font-semibold tracking-wide
-            hover:brightness-110 transition-[filter] duration-150
-          `}
-          type="button"
-        >
-          View Case Study
-          <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
-            <path
-              d="M3 8h10M9 4l4 4-4 4"
-              stroke="currentColor"
-              strokeWidth={1.75}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </motion.button>
-      </motion.div>
     </motion.div>
   );
 }

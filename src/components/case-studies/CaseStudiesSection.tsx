@@ -16,12 +16,13 @@ const ALL = "all" as const;
 type Filter = CaseStudyCategory | typeof ALL;
 
 const FILTERS: { key: Filter; label: string }[] = [
-  { key: ALL,          label: "All Work"   },
-  { key: "fintech",    label: "Fintech"    },
-  { key: "healthtech", label: "HealthTech" },
-  { key: "logistics",  label: "Logistics"  },
-  { key: "ecommerce",  label: "E-Commerce" },
-  { key: "saas",       label: "SaaS"       },
+  { key: ALL,           label: "All Projects"  },
+  { key: "saas",        label: "SaaS"          },
+  { key: "logistics",   label: "Logistics"     },
+  { key: "ecommerce",   label: "E-Commerce"    },
+  { key: "web",         label: "Web & Mobile"  },
+  { key: "publishing",  label: "Publishing"    },
+  { key: "admin",       label: "Admin Tools"   },
 ];
 
 // ─── Variants ─────────────────────────────────────────────────────────────────
@@ -105,25 +106,25 @@ export function CaseStudiesSection() {
           className="text-center mb-14"
         >
           <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-cyan-400/80 mb-4">
-            Our Work
+            Real Projects · Live & Deployed
           </p>
           <h2
             id="case-studies-heading"
             className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-5"
           >
-            Case Studies That{" "}
+            Projects We&apos;ve{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{
                 backgroundImage: "linear-gradient(90deg,#3B82F6,#06B6D4)",
               }}
             >
-              Prove the Point
+              Built &amp; Shipped
             </span>
           </h2>
           <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
-            Real challenges, measurable outcomes. Every engagement starts with understanding
-            the business problem — the technology comes second.
+            9 real products — all live on Vercel. From SaaS platforms and logistics dashboards
+            to e-commerce stores and academic publishing suites.
           </p>
         </motion.div>
 
@@ -222,7 +223,7 @@ export function CaseStudiesSection() {
           className="mt-16 text-center"
         >
           <p className="text-white/35 text-sm mb-5">
-            Want to see what we can build for you?
+            Impressed? Let&apos;s build your next product together.
           </p>
           <a
             href="/contact"
